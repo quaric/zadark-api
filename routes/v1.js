@@ -17,7 +17,7 @@ router.post('/translate', async (req, res) => {
     const { text, target } = req.body
 
     if (!text || !target) {
-      return res.json({
+      return res.status(422).json({
         success: false,
         message: 'Missing required fields'
       })
@@ -39,7 +39,7 @@ router.post('/translate', async (req, res) => {
       languageName
     })
   } catch (error) {
-    res.json({
+    res.status(500).json({
       success: false,
       message: error.message
     })
