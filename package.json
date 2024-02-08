@@ -1,0 +1,44 @@
+{
+  "name": "zadark-api",
+  "description": "Dark Mode tốt nhất cho Zalo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/quaric/zadark-api.git",
+  "author": {
+    "name": "Quaric",
+    "email": "hello@quaric.com",
+    "url": "https://quaric.com"
+  },
+  "contributors": [
+    {
+      "name": "Nguyen Chanh Dai",
+      "email": "hello@chanhdai.com",
+      "url": "https://github.com/iamncdai"
+    }
+  ],
+  "license": "MPL-2.0",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "standard:fix": "standard --fix ./*.js"
+  },
+  "dependencies": {
+    "@google-cloud/translate": "^8.0.3",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "nodemon": "^3.0.3",
+    "standard": "^16.0.4"
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "global": []
+  },
+  "engines": {
+    "node": ">=14.15"
+  }
+}
