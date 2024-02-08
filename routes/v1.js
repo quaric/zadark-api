@@ -4,6 +4,8 @@ const { getLanguageName } = require('../utils/language')
 
 const router = express.Router()
 
+const MAX_TEXT_LENGTH = 3000
+
 router.get('/', (req, res) => {
   res.json({
     success: true,
@@ -19,7 +21,14 @@ router.post('/translate', async (req, res) => {
     if (!text || !target) {
       return res.status(422).json({
         success: false,
-        message: 'Missing required fields'
+        message: 'Vui lòng nhập đủ nội dung và ngôn ngữ cần dịch.'
+      })
+    }
+
+    if (text.length > MAX_TEXT_LENGTH) {
+      return res.status(413).json({
+        success: false,
+        message: 'Nội dung quá dài, vui lòng chia nhỏ hơn 3000 ký tự.'
       })
     }
 
