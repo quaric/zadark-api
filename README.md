@@ -12,6 +12,7 @@ Create an .env file with the following content:
 
 ```bash
 TRANSLATE_API_KEY=YOUR_API_KEY
+PORT=5555
 ```
 
 ### Install packages
