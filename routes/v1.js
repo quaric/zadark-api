@@ -1,6 +1,6 @@
 const express = require('express')
-const googleTranslate = require('../utils/google-translate')
-const { getLanguageName } = require('../utils/language')
+// const googleTranslate = require('../utils/google-translate')
+// const { getLanguageName } = require('../utils/language')
 const { checkSchema, validationResult } = require('express-validator')
 
 const router = express.Router()
@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   res.json({
     success: true,
     message: 'ZaDark API',
-    version: '1'
+    version: '1.1'
   })
 })
 
@@ -53,17 +53,22 @@ router.post(
         })
       }
 
-      const { text, target } = req.body
-
-      const languageName = getLanguageName(target)
-
-      const [translation] = await googleTranslate.translate(text, target)
-
-      res.json({
-        success: true,
-        translation,
-        languageName
+      res.status(500).json({
+        success: false,
+        message: 'Tính năng tạm thời ngừng hoạt động.'
       })
+
+      // const { text, target } = req.body
+
+      // const languageName = getLanguageName(target)
+
+      // const [translation] = await googleTranslate.translate(text, target)
+
+      // res.json({
+      //   success: true,
+      //   translation,
+      //   languageName
+      // })
     } catch (error) {
       res.status(500).json({
         success: false,
