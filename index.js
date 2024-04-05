@@ -18,6 +18,7 @@ app.use(helmet())
 
 app.set('trust proxy', 1)
 app.get('/ip', (request, response) => response.send(request.ip))
+app.get('/x-forwarded-for', (request, response) => response.send(request.headers['x-forwarded-for']))
 
 app.use('/v1', require('./routes/v1'))
 
