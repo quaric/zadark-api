@@ -1,7 +1,14 @@
 const express = require('express')
 const { rateLimit } = require('express-rate-limit')
+const { RedisStore } = require('rate-limit-redis')
+const Redis = require('ioredis')
 const { checkSchema, validationResult } = require('express-validator')
 const dayjs = require('dayjs')
+
+let redisClient
+if (process.env.REDIS_URL) {
+  redisClient = new Redis(process.env.REDIS_URL)
+}
 
 const relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
@@ -21,6 +28,11 @@ const limiter = rateLimit({
   limit: RATE_LIMIT_PER_INTERVAL, // Limit each IP to RATE_LIMIT_PER_INTERVAL requests per `window`
   standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  store: redisClient
+    ? new RedisStore({
+        sendCommand: (...args) => redisClient.call(...args)
+      })
+    : undefined,
   keyGenerator (req, res) {
     console.log('keyGenerator', { ip: req.ip, remoteAddress: req.socket.remoteAddress })
 
