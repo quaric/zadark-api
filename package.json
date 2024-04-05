@@ -1,7 +1,7 @@
 {
   "name": "zadark-api",
   "description": "Dark Mode tốt nhất cho Zalo",
-  "version": "1.1",
+  "version": "1.2",
   "main": "index.js",
   "repository": "https://github.com/quaric/zadark-api.git",
   "author": {
@@ -30,8 +30,10 @@
     "@google-cloud/translate": "^8.0.3",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
+    "dayjs": "^1.11.10",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
+    "express-rate-limit": "^7.2.0",
     "express-validator": "^7.0.1",
     "helmet": "^7.1.0",
     "morgan": "^1.10.0"
