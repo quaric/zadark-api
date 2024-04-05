@@ -16,6 +16,9 @@ app.use(cors({
 app.use(morgan('combined'))
 app.use(helmet())
 
+app.set('trust proxy', 1)
+app.get('/ip', (request, response) => response.send(request.ip))
+
 app.use('/v1', require('./routes/v1'))
 
 app.listen(port, () => {
