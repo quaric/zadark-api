@@ -12,6 +12,9 @@ Create an .env file with the following content:
 
 ```bash
 TRANSLATE_API_KEY=YOUR_API_KEY
+TRANSLATE_LIMIT_REQUEST_PER_DAY=10
+TRANSLATE_MAX_TEXT_LENGTH=3000
+REDIS_URL=
 PORT=5555
 ```
 
@@ -39,3 +42,4 @@ ZaDark's source code is freely available for use, modification and distribution 
 - https://cloud.google.com/nodejs/docs/reference/translate/latest#using-the-client-library
 - https://express-rate-limit.mintlify.app/
 - https://expressjs.com/en/guide/behind-proxies.html
+- https://redis.io/docs/about/
