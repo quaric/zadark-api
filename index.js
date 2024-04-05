@@ -16,7 +16,7 @@ app.use(cors({
 app.use(morgan('combined'))
 app.use(helmet())
 
-app.set('trust proxy', 2)
+app.set('trust proxy', 10)
 app.get('/ip', (request, response) => response.send(request.ip))
 app.get('/x-forwarded-for', (request, response) => response.send(request.headers['x-forwarded-for']))
 
