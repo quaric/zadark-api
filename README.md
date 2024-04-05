@@ -43,3 +43,7 @@ ZaDark's source code is freely available for use, modification and distribution 
 - https://express-rate-limit.mintlify.app/
 - https://expressjs.com/en/guide/behind-proxies.html
 - https://redis.io/docs/about/
+
+---
+
+> © 2024 Quaric Co., Ltd.
