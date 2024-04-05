@@ -37,3 +37,5 @@ ZaDark's source code is freely available for use, modification and distribution 
 
 ## Acknowledgments
 - https://cloud.google.com/nodejs/docs/reference/translate/latest#using-the-client-library
+- https://express-rate-limit.mintlify.app/
+- https://expressjs.com/en/guide/behind-proxies.html
