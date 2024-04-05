@@ -9,8 +9,8 @@ dayjs.extend(relativeTime)
 require('dayjs/locale/vi')
 dayjs.locale('vi')
 
-// const { getLanguageName } = require('../utils/language')
-// const googleTranslate = require('../utils/google-translate')
+const { getLanguageName } = require('../utils/language')
+const googleTranslate = require('../utils/google-translate')
 
 const RATE_LIMIT_RESET_INTERVAL = 24 * 60 * 60 * 1000 // 1 day (in milliseconds)
 const RATE_LIMIT_PER_INTERVAL = process.env.TRANSLATE_LIMIT_REQUEST_PER_DAY || 10
@@ -22,6 +22,8 @@ const limiter = rateLimit({
   standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   keyGenerator (request, _response) {
+    console.log('keyGenerator', { ip: request.ip, remoteAddress: request.socket.remoteAddress })
+
     if (!request.ip) {
       return request.socket.remoteAddress
     }
@@ -85,22 +87,22 @@ router.post(
         })
       }
 
-      res.status(500).json({
-        success: false,
-        message: 'Tính năng tạm thời ngừng hoạt động.'
-      })
-
-      // const { text, target } = req.body
-
-      // const languageName = getLanguageName(target)
-
-      // const [translation] = await googleTranslate.translate(text, target)
-
-      // res.json({
-      //   success: true,
-      //   translation: `[Bạn đã sử dụng ${req.rateLimit.used}/${req.rateLimit.limit} lượt dịch miễn phí]<br/><br/>${translation}`,
-      //   languageName
+      // res.status(500).json({
+      //   success: false,
+      //   message: 'Tính năng tạm thời ngừng hoạt động.'
       // })
+
+      const { text, target } = req.body
+
+      const languageName = getLanguageName(target)
+
+      const [translation] = await googleTranslate.translate(text, target)
+
+      res.json({
+        success: true,
+        translation: `[Bạn đã sử dụng ${req.rateLimit.used}/${req.rateLimit.limit} lượt dịch miễn phí]<br/><br/>${translation}`,
+        languageName
+      })
     } catch (error) {
       res.status(500).json({
         success: false,
