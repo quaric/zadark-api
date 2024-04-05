@@ -1,5 +1,5 @@
 const express = require('express')
-// const { rateLimit } = require('express-rate-limit')
+const { rateLimit } = require('express-rate-limit')
 const { checkSchema, validationResult } = require('express-validator')
 const dayjs = require('dayjs')
 
@@ -12,22 +12,29 @@ dayjs.locale('vi')
 // const { getLanguageName } = require('../utils/language')
 // const googleTranslate = require('../utils/google-translate')
 
-// const RATE_LIMIT_RESET_INTERVAL = 24 * 60 * 60 * 1000 // 1 day (in milliseconds)
-// const RATE_LIMIT_PER_INTERVAL = process.env.TRANSLATE_LIMIT_REQUEST_PER_DAY || 10
+const RATE_LIMIT_RESET_INTERVAL = 24 * 60 * 60 * 1000 // 1 day (in milliseconds)
+const RATE_LIMIT_PER_INTERVAL = process.env.TRANSLATE_LIMIT_REQUEST_PER_DAY || 10
 const MAX_TEXT_LENGTH = process.env.TRANSLATE_MAX_TEXT_LENGTH || 3000
 
-// const limiter = rateLimit({
-//   windowMs: RATE_LIMIT_RESET_INTERVAL,
-//   limit: RATE_LIMIT_PER_INTERVAL, // Limit each IP to RATE_LIMIT_PER_INTERVAL requests per `window`
-//   standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
-//   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-//   handler: (req, res) => {
-//     res.status(429).json({
-//       success: false,
-//       message: `Bạn đã sử dụng hết ${req.rateLimit.limit} lượt dịch tin nhắn miễn phí.<br/>Vui lòng thử lại sau ${dayjs(req.rateLimit.resetTime).fromNow(true)}.`
-//     })
-//   }
-// })
+const limiter = rateLimit({
+  windowMs: RATE_LIMIT_RESET_INTERVAL,
+  limit: RATE_LIMIT_PER_INTERVAL, // Limit each IP to RATE_LIMIT_PER_INTERVAL requests per `window`
+  standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  keyGenerator (request, _response) {
+    if (!request.ip) {
+      return request.socket.remoteAddress
+    }
+
+    return request.ip.replace(/:\d+[^:]*$/, '')
+  },
+  handler: (req, res) => {
+    res.status(429).json({
+      success: false,
+      message: `Bạn đã sử dụng hết ${req.rateLimit.limit} lượt dịch tin nhắn miễn phí.<br/>Vui lòng thử lại sau ${dayjs(req.rateLimit.resetTime).fromNow(true)}.`
+    })
+  }
+})
 
 const router = express.Router()
 
@@ -41,7 +48,7 @@ router.get('/', (req, res) => {
 
 router.post(
   '/translate',
-  // limiter,
+  limiter,
   checkSchema({
     text: {
       notEmpty: true,
