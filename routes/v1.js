@@ -21,14 +21,14 @@ const limiter = rateLimit({
   limit: RATE_LIMIT_PER_INTERVAL, // Limit each IP to RATE_LIMIT_PER_INTERVAL requests per `window`
   standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-  keyGenerator (request, _response) {
-    console.log('keyGenerator', { ip: request.ip, remoteAddress: request.socket.remoteAddress })
+  keyGenerator (req, res) {
+    console.log('keyGenerator', { ip: req.ip, remoteAddress: req.socket.remoteAddress })
 
-    if (!request.ip) {
-      return request.socket.remoteAddress
+    if (!req.ip) {
+      return req.socket.remoteAddress
     }
 
-    return request.ip.replace(/:\d+[^:]*$/, '')
+    return req.ip.replace(/:\d+[^:]*$/, '')
   },
   handler: (req, res) => {
     res.status(429).json({
