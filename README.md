@@ -46,4 +46,4 @@ ZaDark's source code is freely available for use, modification and distribution 
 
 ---
 
-> © 2024 Quaric Co., Ltd.
+> © 2025 Quaric Co., Ltd.
