@@ -22,6 +22,12 @@ app.get('/x-forwarded-for', (request, response) => response.send(request.headers
 
 app.use('/v1', require('./routes/v1'))
 
+app.use('/health', (req, res) => {
+  res.json({
+    message: 'API is healthy'
+  })
+})
+
 app.listen(port, () => {
   console.log(`ZaDark API listening on port ${port}`)
 })
